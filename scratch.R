@@ -6,7 +6,9 @@ table.sflTrialStarts <- table %>%
   select(trialFromDate,fromDate,channel,firstSignInClient,converted) %>%
   group_by(trialFromDate,firstSignInClient) %>%
   summarise(count = n(),
-            sum(converted))
+            conversions = sum(converted),
+            rate = sum(converted)/n())
+            
   
 print(table.sflTrialStarts)
 print(table)
