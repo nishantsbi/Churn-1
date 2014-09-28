@@ -34,6 +34,10 @@ setwd("~/Box Sync/Kmieciak, Richard/Data/scripts")
     install.packages("ggvis",repos="http://cran.rstudio.com/")
     library(ggvis)
   }
+  if (!require("zoo")) {
+    install.packages("zoo",repos="http://cran.rstudio.com/")
+    library(zoo)
+  }
   
 }
 {

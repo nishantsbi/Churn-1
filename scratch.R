@@ -1,17 +1,15 @@
 source("home.R")
-table <- tbl(stat_store,"account")
-table.sflTrialStarts <- table %>%
-  filter(!is.na(firstSignInClient),!is.na(trialFromDate),date(trialFromDate)>="2014-01-01") %>%
-  mutate(converted = !is.na(fromDate)) %>%
-  group_by(trialFromMonth,firstSignInClient) %>%
-  summarise(count = n(),
-            conversions = sum(converted),
-            rate = sum(converted)/n()) %>%
+t <- tbl(stat_store,"account")
+t.trialConversionRate <- t %>%
+  mutate(dateTrialFromDate = date(trialFromDate)) %>%
+  group_by(dateTrialFromDate,firstSignInClient) %>%
+  summarise(rate = sum(!is.na(fromDate))/n())
+df <- collect(t.trialConversionRate)
+df$month <- month(df$dateTrialFromDate)
 
+ggvis(df,~month,~rate,stroke=~firstSignInClient) %>%
+  layer_lines()
 
-            
-print(table.sflTrialStarts)
-print(table)
-
-rm(table)
-rm(table.sflTrialStarts)
+rm(t)
+rm(t.trialConversionRate)
+rm(df)
