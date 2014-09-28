@@ -1,6 +1,6 @@
 PackratFormat: 1.4
 PackratVersion: 0.4.1.1
-RVersion: 3.0.2
+RVersion: 3.0.3
 Repos: CRAN=http://cran.rstudio.com
 
 Package: assertthat
@@ -37,8 +37,7 @@ Package: devtools
 Source: CRAN
 Version: 1.5
 Hash: d8c2ffc3d991d1b1a8625919b8be3f4c
-Requires: digest, jsonlite, rstudioapi, whisker, RCurl, memoise,
-    evaluate, httr
+Requires: digest, whisker, RCurl, memoise, evaluate, httr
 
 Package: dichromat
 Source: CRAN
@@ -66,7 +65,7 @@ Package: ggplot2
 Source: CRAN
 Version: 1.0.0
 Hash: c8bff66238347472f08b6a35608539ff
-Requires: digest, gtable, plyr, proto, reshape2, scales
+Requires: digest, gtable, proto, plyr, reshape2, scales
 
 Package: ggvis
 Source: CRAN
@@ -121,7 +120,7 @@ Package: lubridate
 Source: CRAN
 Version: 1.3.3
 Hash: f19612b23b1b15febdf30ee920a6e7df
-Requires: memoise, plyr, stringr
+Requires: stringr, memoise, plyr
 
 Package: magrittr
 Source: CRAN
@@ -176,7 +175,7 @@ Package: reshape2
 Source: CRAN
 Version: 1.4
 Hash: b210925e978fd52ad5eb0822a353e7ce
-Requires: plyr, Rcpp, stringr
+Requires: Rcpp, stringr, plyr
 
 Package: rga
 Source: github
@@ -202,12 +201,13 @@ Requires: DBI
 Package: rstudioapi
 Source: CRAN
 Version: 0.1
+Hash: 5bd4449a873ec652a05c932312dcf04b
 
 Package: scales
 Source: CRAN
 Version: 0.2.4
 Hash: b8b1af97bd07818605223060386b00dd
-Requires: dichromat, labeling, munsell, plyr, RColorBrewer
+Requires: dichromat, labeling, RColorBrewer, munsell, plyr
 
 Package: shiny
 Source: CRAN
