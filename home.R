@@ -21,12 +21,7 @@ setwd("~/Box Sync/Kmieciak, Richard/Data/scripts")
     install.packages("reshape2", repos="http://cran.rstudio.com/") 
     library("reshape2")
   }
-  if (!require("rga")) {
-    install.packages("devtools")
-    library(devtools)
-    install_github("rga", "skardhamar")
-    library(rga)
-}
+
 if (!require("DBI")) {
   install.packages("DBI",repos="http://cran.rstudio.com/")
   library(DBI)
@@ -43,9 +38,13 @@ if (!require("stringr")) {
   install.packages("stringr",repos="http://cran.rstudio.com/")
   library(stringr)
 }
+if (!require("riverplot")) {
+  install.packages("riverplot",repos="http://cran.rstudio.com/")
+  library(riverplot)
+}
 
 }
-source("gaHome.R")
+
 {
   #sparkle_reports <- dbConnect(MySQL(), user='sparkle', password='sparkle', dbname='sparkle', host='127.0.0.1', port=13306)
   #stat_store <- dbConnect(MySQL(), user='stats', password='stats', dbname='stat_store', host='127.0.0.1', port=13306)
