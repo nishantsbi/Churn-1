@@ -2,18 +2,18 @@ source("http://rako1.com/gaHome.R")
 source("http://rako1.com/home.R")
 source("http://rako1.com/utility.R")
 
+head(df.paid)
 ##beginning of period
-df <- read.csv("delChurn.csv")
+df.paid <- read.csv("sflPaid1010.csv")
+df.paid$date <- mdy(df.paid$date)
+df.group <- df.paid %>%
+  mutate(month = as.numeric(as.yearmon(date))) %>%
+  group_by(month)%>%
+  mutate(month = as.yearmon(month))
+headf.group
 
-df$fromDate <- mdy(df$fromDate)
-df$toDate <- mdy(df$toDate)
 
 
-
-(is.na(df$toDate))
-month(df$toDate) !=mo
-
-rk_churnRate(beginCount = 10,endCount = 12,lost = 1)
 
 #         BOP	EOP	LOST	churn rate
 # January	0	  2	  0	    0
