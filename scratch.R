@@ -2,13 +2,10 @@ source("http://rako1.com/gaHome.R")
 source("http://rako1.com/home.R")
 source("http://rako1.com/utility.R")
 
-x <- seq(1:30)
-y <- c(1,30)
-mean(x)
-mean(y)
 
-##
-head(df.churnRateByMonth)
+
+
+
 ##SFL churn by month, import colo daily paidAdds, daily churned (WORKING)
 df.paid <- read.csv("sflPaid1010.csv")
 df.paid$date <- mdy(df.paid$date)
@@ -17,12 +14,12 @@ df.churnRateByMonth <- df.paid %>%
   mutate(month = as.numeric(as.yearmon(date))) %>%
   group_by(month) %>%
   summarise(churnRate = round(sum(churned)/mean(paidSub),digits = 4),
-    lifetimeValue = round(rk_lifetimeValue(pricePerPeriod = 5 ,churnRatePerPeriod = churnRate),digits=2)) %>%
-df.churnRateByMonth
-ggvis(df.churnRateByMonth,~month,~lifetimeValue) %>% layer_lines() %>% layer_smooths()
-ggplot(df.churnRateByMonth,aes(x=month,y=lifetimeValue)) + geom_line() + geom_smooth()
-
-
+    lifetimeValue = round(rk_lifetimeValue(pricePerPeriod = 5 ,churnRatePerPeriod = churnRate),digits=2))
+df.churnRateByMonth$month <- as.Date(as.yearmon(df.churnRateByMonth$month))
+ggvis(df.churnRateByMonth,~month,~lifetimeValue) %>% layer_lines() %>% layer_smooths() %>% 
+  add_axis(type = "x",title = "Time",ticks = 20) %>%
+  add_axis(type = "y",title = "SFL Lifetime Value ($)") 
+  
 
 
 
@@ -80,17 +77,16 @@ print(t)
 
 
 #####TRIAL TO PAID CONVERSION RATE (Working)
-source("home.R")
+source("http://rako1.com/home.R")
 t <- tbl(stat_store,"account")
 t.trialConversionRate <- t %>%
   mutate(dateTrialFromDate = date(trialFromDate)) %>%
-  filter(trialFromDate > "2014-08-27") %>%
+  filter(trialFromDate > "2014-03-27") %>%
   group_by(dateTrialFromDate) %>%
-  summarise(rate = sum(!is.na(fromDate))/n())
+  summarise(rate = 1-(sum(!is.na(fromDate))/n()))
 
 df <- collect(t.trialConversionRate)
 df$month <- month(df$dateTrialFromDate)
 df$dateTrialFromDate <- ymd(df$dateTrialFromDate)
-
-ggplot(df,aes(x=dateTrialFromDate,y=rate)) + geom_area(alpha=.2)
+ggvis(df,~dateTrialFromDate,~rate) %>% layer_lines()
 
