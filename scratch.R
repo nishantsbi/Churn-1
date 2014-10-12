@@ -2,29 +2,27 @@ source("http://rako1.com/gaHome.R")
 source("http://rako1.com/home.R")
 source("http://rako1.com/utility.R")
 
+x <- seq(1:30)
+y <- c(1,30)
+mean(x)
+mean(y)
 
-df.paid <- read.csv("sflPaid1010.csv")
-df.paid$date <- mdy(df.paid$date)
-df.churnRateByMonth <- df.paid %>%
-  group_by(month(date)) %>%
-  mutate(lastDay = ceiling_date(ymd("2014-01-23"),unit = "month") - days(1),
-         firstDay = floor_date(ymd("2014-01-23"),unit = "month"))
+##
 head(df.churnRateByMonth)
-
-ceiling_date(ymd("2014-01-23"),unit = "month") - days(1)
-
-
-
-##group_by yearmon (WORKING)
+##SFL churn by month, import colo daily paidAdds, daily churned (WORKING)
 df.paid <- read.csv("sflPaid1010.csv")
 df.paid$date <- mdy(df.paid$date)
-df.group <- df.paid %>%
+price <- 5
+df.churnRateByMonth <- df.paid %>%
   mutate(month = as.numeric(as.yearmon(date))) %>%
-  group_by(month)%>%
-  mutate(ym = as.yearmon(month)) %>%
-  ungroup() %>%
-  select(ym,paidSub,churned)
-head(df.group)
+  group_by(month) %>%
+  summarise(churnRate = round(sum(churned)/mean(paidSub),digits = 4),
+    lifetimeValue = round(rk_lifetimeValue(pricePerPeriod = 5 ,churnRatePerPeriod = churnRate),digits=2)) %>%
+df.churnRateByMonth
+ggvis(df.churnRateByMonth,~month,~lifetimeValue) %>% layer_lines() %>% layer_smooths()
+ggplot(df.churnRateByMonth,aes(x=month,y=lifetimeValue)) + geom_line() + geom_smooth()
+
+
 
 
 
